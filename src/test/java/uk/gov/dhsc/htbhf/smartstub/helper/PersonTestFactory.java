@@ -16,10 +16,18 @@ public class PersonTestFactory {
     private static final String NINO = "EB123456C";
 
     /**
-     * Creates a {@link PersonDTO} request object with a nino that encodes to a person who is ineligible according to DWP.
+     * Creates a {@link PersonDTO} request object with a nino that encodes to a person who is ineligible according to DWP (First character is 'I').
      */
     public static PersonDTO aPersonWhoIsDWPIneligible() {
         final String nino = "IA000000C";
+        return buildDefaultPerson().nino(nino).build();
+    }
+
+    /**
+     * Creates a {@link PersonDTO} request object with a nino that encodes to a person who is ineligible according to DWP (Second character is 'I').
+     */
+    public static PersonDTO anAlternatePersonWhoIsDWPIneligible() {
+        final String nino = "AI000000C";
         return buildDefaultPerson().nino(nino).build();
     }
 
@@ -32,10 +40,18 @@ public class PersonTestFactory {
     }
 
     /**
-     * Creates a {@link PersonDTO} request object with a nino that encodes to a person who is eligible according to DWP.
+     * Creates a {@link PersonDTO} request object with a nino that encodes to a person who is eligible according to DWP (First character is 'E').
      */
     public static PersonDTO aPersonWhoIsDWPEligible() {
         final String nino = "EA000000C";
+        return buildDefaultPerson().nino(nino).build();
+    }
+
+    /**
+     * Creates a {@link PersonDTO} request object with a nino that encodes to a person who is eligible according to DWP (Second character is 'E').
+     */
+    public static PersonDTO anAlternatePersonWhoIsDWPEligible() {
+        final String nino = "AE000000C";
         return buildDefaultPerson().nino(nino).build();
     }
 
@@ -48,10 +64,18 @@ public class PersonTestFactory {
     }
 
     /**
-     * Creates a {@link PersonDTO} request object with a nino that encodes to a person who is pending according to DWP.
+     * Creates a {@link PersonDTO} request object with a nino that encodes to a person who is pending according to DWP (First character is 'P').
      */
     public static PersonDTO aPersonWhoIsDWPPending() {
         final String nino = "PA000000C";
+        return buildDefaultPerson().nino(nino).build();
+    }
+
+    /**
+     * Creates a {@link PersonDTO} request object with a nino that encodes to a person who is pending according to DWP (Second character is 'P').
+     */
+    public static PersonDTO anAlternatePersonWhoIsDWPPending() {
+        final String nino = "AP000000C";
         return buildDefaultPerson().nino(nino).build();
     }
 

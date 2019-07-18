@@ -13,60 +13,33 @@ import static uk.gov.dhsc.htbhf.eligibility.model.EligibilityStatus.PENDING;
 import static uk.gov.dhsc.htbhf.smartstub.controller.IntegrationTestAssertions.assertCorrectNumberOfChildren;
 import static uk.gov.dhsc.htbhf.smartstub.helper.PersonTestFactory.*;
 
-class BenefitsServiceDWPTest {
+class BenefitsServiceHMRCTest {
 
     private BenefitsService benefitsService = new BenefitsService(new IdentifierService());
 
     @Test
     void shouldReturnIneligibleForMatchingNino() {
-        PersonDTO person = aPersonWhoIsDWPIneligible();
+        PersonDTO person = aPersonWhoIsHMRCIneligible();
 
-        BenefitDTO benefit = benefitsService.getDWPBenefits(person.getNino());
-
-        assertThat(benefit.getEligibilityStatus()).isEqualTo(INELIGIBLE);
-    }
-
-    @Test
-    void shouldReturnIneligibleForAlternateMatchingNino() {
-        PersonDTO person = anAlternatePersonWhoIsDWPIneligible();
-
-        BenefitDTO benefit = benefitsService.getDWPBenefits(person.getNino());
+        BenefitDTO benefit = benefitsService.getHMRCBenefits(person.getNino());
 
         assertThat(benefit.getEligibilityStatus()).isEqualTo(INELIGIBLE);
     }
 
     @Test
     void shouldReturnEligibleForMatchingNino() {
-        PersonDTO person = aPersonWhoIsDWPEligible();
+        PersonDTO person = aPersonWhoIsHMRCEligible();
 
-        BenefitDTO benefit = benefitsService.getDWPBenefits(person.getNino());
-
-        assertThat(benefit.getEligibilityStatus()).isEqualTo(ELIGIBLE);
-    }
-
-    @Test
-    void shouldReturnEligibleForAlternateMatchingNino() {
-        PersonDTO person = anAlternatePersonWhoIsDWPEligible();
-
-        BenefitDTO benefit = benefitsService.getDWPBenefits(person.getNino());
+        BenefitDTO benefit = benefitsService.getHMRCBenefits(person.getNino());
 
         assertThat(benefit.getEligibilityStatus()).isEqualTo(ELIGIBLE);
     }
 
     @Test
     void shouldReturnPendingForMatchingNino() {
-        PersonDTO person = aPersonWhoIsDWPPending();
+        PersonDTO person = aPersonWhoIsHMRCPending();
 
-        BenefitDTO benefit = benefitsService.getDWPBenefits(person.getNino());
-
-        assertThat(benefit.getEligibilityStatus()).isEqualTo(PENDING);
-    }
-
-    @Test
-    void shouldReturnPendingForAlternateMatchingNino() {
-        PersonDTO person = anAlternatePersonWhoIsDWPPending();
-
-        BenefitDTO benefit = benefitsService.getDWPBenefits(person.getNino());
+        BenefitDTO benefit = benefitsService.getHMRCBenefits(person.getNino());
 
         assertThat(benefit.getEligibilityStatus()).isEqualTo(PENDING);
     }
@@ -75,7 +48,7 @@ class BenefitsServiceDWPTest {
     void shouldReturnNoMatchNino() {
         PersonDTO person = aPersonNotFound();
 
-        BenefitDTO benefit = benefitsService.getDWPBenefits(person.getNino());
+        BenefitDTO benefit = benefitsService.getHMRCBenefits(person.getNino());
 
         assertThat(benefit.getEligibilityStatus()).isEqualTo(NO_MATCH);
         assertThat(benefit.getNumberOfChildrenUnderOne()).isNull();
@@ -86,7 +59,7 @@ class BenefitsServiceDWPTest {
     void shouldReturnTwoChildrenUnderFourForMatchingNino() {
         PersonDTO person = aPersonWithChildrenUnderFour(2);
 
-        BenefitDTO benefit = benefitsService.getDWPBenefits(person.getNino());
+        BenefitDTO benefit = benefitsService.getHMRCBenefits(person.getNino());
 
         assertThat(benefit.getNumberOfChildrenUnderOne()).isEqualTo(0);
         assertThat(benefit.getNumberOfChildrenUnderFour()).isEqualTo(2);
@@ -97,7 +70,7 @@ class BenefitsServiceDWPTest {
     void shouldReturnThreeChildrenUnderOneForMatchingNino() {
         PersonDTO person = aPersonWithChildrenUnderOne(3);
 
-        BenefitDTO benefit = benefitsService.getDWPBenefits(person.getNino());
+        BenefitDTO benefit = benefitsService.getHMRCBenefits(person.getNino());
 
         assertThat(benefit.getNumberOfChildrenUnderOne()).isEqualTo(3);
         assertThat(benefit.getNumberOfChildrenUnderFour()).isEqualTo(3);
@@ -108,7 +81,7 @@ class BenefitsServiceDWPTest {
     void shouldReturnSameNumberOfChildrenUnder1AndUnder4WhenRequestHasUnder1LargerThanUnder4() {
         PersonDTO person = aPersonWithChildren(4, 1);
 
-        BenefitDTO benefit = benefitsService.getDWPBenefits(person.getNino());
+        BenefitDTO benefit = benefitsService.getHMRCBenefits(person.getNino());
 
         assertThat(benefit.getNumberOfChildrenUnderOne()).isEqualTo(1);
         assertThat(benefit.getNumberOfChildrenUnderFour()).isEqualTo(1);
@@ -119,6 +92,6 @@ class BenefitsServiceDWPTest {
     void shouldThrowExceptionWhenErrorNinoSupplied() {
         PersonDTO person = aPersonWhoWillTriggerAnError();
 
-        assertThrows(IllegalArgumentException.class, () -> benefitsService.getDWPBenefits(person.getNino()));
+        assertThrows(IllegalArgumentException.class, () -> benefitsService.getHMRCBenefits(person.getNino()));
     }
 }
